@@ -25,7 +25,7 @@
                                      {{ $message }}
                                     @enderror
                                 </em>
-                                <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" required placeholder="">  
+                                <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" required placeholder="" style="border:1px solid lightgreen">  
                                 <label for="email">Email</label>  
                             </div>  
                             <div class="form-group mb-5">  
@@ -34,7 +34,7 @@
                                      {{ $message }}
                                     @enderror
                                 </em>
-                                <input type="password" class="form-control" id="password" required name="password" placeholder="">  
+                                <input type="password" class="form-control" id="password" required name="password" placeholder="" style="border:1px solid lightgreen">  
                                 <label for="password">Mot de passe</label>  
                             </div>  
                             <div class="d-grid">  

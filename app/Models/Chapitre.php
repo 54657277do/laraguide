@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Chapitre extends Model
 {
     
+    protected $primaryKey= 'idchapitre';
+    
     protected $fillable = [  
         'idchapitre',
         'nomchapitre',  
@@ -18,6 +20,6 @@ class Chapitre extends Model
 
     public function cours()  
     {  
-        return $this->hasMany(Cour::class, 'idchapitre');  
+        return $this->hasMany(cours::class, 'idchapitre');  
     }  
 }

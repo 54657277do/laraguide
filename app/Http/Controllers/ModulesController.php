@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\modulesRequest;
+use App\Http\Requests\updatemodule;
 use App\Models\Module;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,9 +33,25 @@ class ModulesController extends Controller
         return redirect('modules')->with('success', '! ');
     }
 
+    public function updatemodule(updatemodule $request) {
+  
+        $formateurid=Auth::user()->id;
+        $titremodule= $request->nommodule;
+        $prerequis= $request->prerequis?:'Pas de préréquis';
+        $description= $request->description;
+        
+        $module= Module::find($request->idmodule);
+        $module->nommodule = $titremodule;
+        $module->prerequis = $prerequis;
+        $module->description = $description;
+        $module->save();
+        return redirect('modules')->with('successupdate', 'Module mis à jour ');
+    }
+
 
     public function listes() {
-        $modules= Module::all();
+        $formateurid=Auth::user()->id;
+        $modules= Module::where('idformateur', $formateurid)->get();
         return view('modules',
         [
          'modules'=> $modules   

@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Creer chapitre</title>
+  <title>Creer QCM</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
   <style>
     :root {
@@ -33,19 +33,19 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a href="{{ route('cours', Session::get('idchapitre')) }}" class="nav-link active">Cours</a>
+            <a href="{{ route('qcm', Session::get('idchapitre')) }}" class="nav-link active">QCM</a>
         </li>
 
         <li class="dropdown nav-item">  
   <button class="btn btn-default dropdown-toggle text-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">  
-    QCM  
+    Cours  
   </button>  
   <ul class="dropdown-menu dropdown-menu-end">  
-    <li><a class="dropdown-item" href="{{ route('creerqcm') }}">Creer qcm</a></li>  
-    <li><a class="dropdown-item" href="{{ route('qcm', Session::get('idchapitre') ) }}">Voir les qcm</a></li>  
+    <li><a class="dropdown-item" href="{{ route('creercours') }}">Creer cours</a></li>  
+    <li><a class="dropdown-item" href="{{ route('cours', Session::get('idchapitre') ) }}">Voir les cours</a></li>  
   </ul>  
       </li>
-
+      
         <li class="dropdown nav-item">  
   <button class="btn btn-default dropdown-toggle text-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">  
     Chapitre  
@@ -89,39 +89,56 @@
     <center>CHAPITRE : <strong>{{Session::get('nomchapitre')}}</strong></center>
   </div>
 
-  <!-- Modal pour la création d'un module de formation -->
   <div class="row" style="padding-left:20%; padding-right:20%">
     <center>
-          <h5 class="modal-title" id="createModuleModalLabel">Créer un cours</h5>
+          <h5 class="modal-title" id="createModuleModalLabel">Créer un qcm</h5><br>
 
-          <form action="/create-cours" method="post" enctype="multipart/form-data">
+          <form action="/create-qcm" method="post" enctype="multipart/form-data">
           {{ csrf_field() }}
-            <div class="mb-3" style="padding: 25px 30px 10px 30px; box-shadow:0px 2px 5px 5px lightblue ">
-              <em class="text-danger" style="font-size:10px">
-                                    @error("titrecours")
+          <div class=" bg-light text-light" style="padding: 25px 30px 10px 30px; box-shadow:0px 2px 5px 5px lightblue ">
+          <em class="text-danger" style="font-size:15px">
+                                    @error("illus")
                                      {{ $message }}
                                     @enderror
                                 </em>
+            <input type="file" name="illus" class="form-control"><br>
+            <em class="text-danger" style="font-size:20px">
+          <em class="text-danger" style="font-size:15px">
+                                    @error("libelle")
+                                     {{ $message }}
+                                    @enderror
+                                </em>
+            <input type="text" name="libelle" class="form-control" id="moduleTitle" placeholder="Saisir ici le libellé ..." required minlength="1"><br>
+            <em class="text-danger" style="font-size:20px">
+                                    @error("option1")
+                                     {{ $message }}
+                                    @enderror
+                                </em>
+              <input type="text" name="option1" class="form-control" id="moduleTitle" placeholder="Saisir ici l'option 1 ..." required minlength="1"><br>
+              <em class="text-danger" style="font-size:20px">
+                                    @error("option2")
+                                     {{ $message }}
+                                    @enderror
+                                </em>
+              <input type="text" name="option2" class="form-control" id="moduleTitle" placeholder="Saisir ici l'option 2 ..." required minlength="1"><br>
+              <em class="text-danger" style="font-size:20px">
+                                    @error("option3")
+                                     {{ $message }}
+                                    @enderror
+                                </em>
+              <input type="text" name="option3" class="form-control" id="moduleTitle" placeholder="Saisir ici l'option 3 ..." required minlength="4"><br>
+              <em class="text-danger" style="font-size:20px">
+                                    @error("reponse")
+                                     {{ $message }}
+                                    @enderror
+                                </em>
+              <input type="text" name="reponse" class="form-control" id="moduleTitle" placeholder="Saisir ici la reponse..." required minlength="4">
               <input type="hidden" name="idchapitre" value="{{ Session::get('idchapitre') }}">
-              <input type="text" name="titrecours" class="form-control" value="{{old('titrecours')}}" id="moduleTitle" placeholder="Entrez le titre du cours" style="border: 1px solid gray;" required><br>
-              <em class="text-danger" style="font-size:10px">
-                                    @error("illustrationcours")
-                                     {{ $message }}
-                                    @enderror
-                                </em>
-              <label for="illustrationcours">Image ou video d'illustration</label>
-              <input type="file" name="illustrationcours" id="illustrationcours" class="form-control" accept=""><br>
-              <em class="text-danger" style="font-size:10px">
-                                    @error("contenucours")
-                                     {{ $message }}
-                                    @enderror
-                                </em>
-              <textarea name="contenucours" class="form-control" id="contenucours" style="border: 1px solid gray;" required placeholder="Saisissez le contenu du cours ici">{{old('contenucours')}}</textarea>
             </div>
-          <button type="submit" class="btn btn-primary" style="width: 100%;">Valider</button>
+          <button type="submit" class="btn btn-primary" style="width: 100%; border-radius:0">Valider</button>
         </form>
     </center>
-  </div><br><hr><br>
+  </div><br>
   <center><em>
     <a href="{{ route('cours', Session::get('idchapitre')) }}">Voir les cours existants</a>
   </em></center>

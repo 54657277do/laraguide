@@ -43,16 +43,21 @@
   </ul>  
       </li>
 
-          <li class="nav-item">
-            <a class="nav-link active btn btn-light text-primary bg-white" href="#">Profil</a>
-          </li>
-          <li class="nav-item">
+          <li class="dropdown nav-item">  
+  <button class="btn btn-danger  dropdown-toggle text-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">  
+    Profil : {{Auth::user()->username}}  
+  </button>  
+  <ul class="dropdown-menu dropdown-menu-end">  
+    <li><a class="dropdown-item text-primary" href="{{ route('me') }}">Mes informations</a></li>  
+    <li class="dropdown-item">
             <form action="{{ route('logout') }}" method="post" class="nav-item">
               @method('delete')
               @csrf
-              <button class="nav-link">Se deconnecter</button>
+              <button class="btn btn-danger">Se deconnecter</button>
             </form>
-          </li>
+    </li>  
+  </ul>  
+      </li>
         </ul>
       </div>
     </div>

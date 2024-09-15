@@ -6,28 +6,31 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
-class cours extends Model
+class qcm extends Model
 {
     use HasFactory;
-    protected $table = 'cours';  
-    protected $primaryKey = 'idcours';  
+    protected $table = 'qcm';  
+    protected $primaryKey = 'idqcm';  
     public $timestamps = false;  
 
     protected $fillable = [ 
-        'idcours', 
+        'idqcm', 
         'idchapitre',  
         'idformateur',  
-        'titrecours',  
-        'contenucours',  
-        'illustrationcours',  
+        'libelle',
+        'illustrationqcm',  
+        'option1',
+        'option2',
+        'option3',  
+        'reponse'
     ];  
 
     public function chapitre()  
     {  
         return $this->belongsTo(Chapitre::class, 'idchapitre');  
-    }
-    public function imageUrl():string {
-     return Storage::url($this->illustrationcours);
-    }
-}
+    }  
 
+    public function imageUrl():string {
+        return Storage::url($this->illustrationqcm);
+       }
+}

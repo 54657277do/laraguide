@@ -6,6 +6,7 @@
     <title>Formulaire d'inscription</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        
         .form-group {
             position: relative;
         }
@@ -75,13 +76,21 @@
                     </li>
                     @endguest
                     @auth
-                    <li class="nav-item">
-                    <form action="{{ route('logout') }}" method="post" class="nav-item">
-                     @method('delete')
-                     @csrf
-                     <button class="nav-link text-dark">Se deconnecter</button>
-                    </form>
-                    </li>
+                    <li class="dropdown nav-item">  
+  <button class="btn btn-danger  dropdown-toggle text-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">  
+    Profil : {{Auth::user()->username}}  
+  </button>  
+  <ul class="dropdown-menu dropdown-menu-end">  
+    <li><a class="dropdown-item text-primary" href="{{ route('me') }}">Mes informations</a></li>  
+    <li class="dropdown-item">
+            <form action="{{ route('logout') }}" method="post" class="nav-item">
+              @method('delete')
+              @csrf
+              <button class="btn btn-danger">Se deconnecter</button>
+            </form>
+    </li>  
+  </ul>  
+      </li>
                     @endauth
                 </ul>
             </div>

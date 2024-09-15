@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Module extends Model
 {
+    protected $primaryKey='idmodule';
     protected $fillable = [  
         'idmodule',  
         'idformateur',

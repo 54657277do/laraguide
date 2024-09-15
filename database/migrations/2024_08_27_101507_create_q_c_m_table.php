@@ -15,8 +15,11 @@ return new class extends Migration
             $table->id('idqcm'); 
             $table->unsignedBigInteger('idformateur');  
             $table->unsignedBigInteger('idchapitre');  
-            $table->string('libelle');  
-            $table->text('options');  
+            $table->string('libelle'); 
+            $table->string('illustrationqcm')->nullable();   
+            $table->string('option1');  
+            $table->string('option2');  
+            $table->string('option3');  
             $table->string('reponse');  
             $table->timestamps();  
 

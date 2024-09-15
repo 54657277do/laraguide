@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Creer chapitre</title>
+  <title>MES COURS</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
   <style>
     :root {
@@ -32,30 +32,11 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a href="{{ route('cours', Session::get('idchapitre')) }}" class="nav-link active">Cours</a>
-        </li>
-
-        <li class="dropdown nav-item">  
-  <button class="btn btn-default dropdown-toggle text-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">  
-    QCM  
-  </button>  
-  <ul class="dropdown-menu dropdown-menu-end">  
-    <li><a class="dropdown-item" href="{{ route('creerqcm') }}">Creer qcm</a></li>  
-    <li><a class="dropdown-item" href="{{ route('qcm', Session::get('idchapitre') ) }}">Voir les qcm</a></li>  
-  </ul>  
-      </li>
-
-        <li class="dropdown nav-item">  
-  <button class="btn btn-default dropdown-toggle text-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">  
-    Chapitre  
-  </button>  
-  <ul class="dropdown-menu dropdown-menu-end">  
-    <li><a class="dropdown-item" href="{{ route('creerchapter') }}">Retour aux chapitres</a></li>  
-    <li><a class="dropdown-item" href="{{ route('chapters', Session::get('idmodule') ) }}">Creer un chapitre</a></li>  
-  </ul>  
-      </li>
-
+          
+        <li class="nav-item">
+            <a class="nav-link active" href="{{ route('creercours') }}">Creer cours</a>
+          </li>
+          
         <li class="dropdown nav-item">  
   <button class="btn btn-default dropdown-toggle text-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">  
     Module  
@@ -66,7 +47,27 @@
   </ul>  
       </li>
 
+      <li class="dropdown nav-item">  
+  <button class="btn btn-default dropdown-toggle text-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">  
+    Chapitre  
+  </button>  
+  <ul class="dropdown-menu dropdown-menu-end">  
+    <li><a class="dropdown-item" href="{{ route('creerchapter') }}">Retour aux chapitres</a></li>  
+    <li><a class="dropdown-item" href="{{ route('chapters', Session::get('idmodule') ) }}">Creer un chapitre</a></li>  
+  </ul>  
+      </li>
+          
           <li class="dropdown nav-item">  
+  <button class="btn btn-default dropdown-toggle text-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">  
+    QCM 
+  </button>  
+  <ul class="dropdown-menu dropdown-menu-end">  
+    <li><a class="dropdown-item" href="{{ route('creerqcm') }}">Creer qcm</a></li>  
+    <li><a class="dropdown-item" href="{{ route('qcm', Session::get('idchapitre') ) }}">Voir les qcm</a></li>  
+  </ul>  
+      </li>
+
+      <li class="dropdown nav-item">  
   <button class="btn btn-danger  dropdown-toggle text-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">  
     Profil : {{Auth::user()->username}}  
   </button>  
@@ -85,47 +86,47 @@
       </div>
     </div>
   </nav>
-  <div class="alert alert-primary">
-    <center>CHAPITRE : <strong>{{Session::get('nomchapitre')}}</strong></center>
-  </div>
-
-  <!-- Modal pour la création d'un module de formation -->
+  
   <div class="row" style="padding-left:20%; padding-right:20%">
-    <center>
-          <h5 class="modal-title" id="createModuleModalLabel">Créer un cours</h5>
+    <center> <br>
+    <h5 class="text text-success" style="font-weight: bold">{{ session('success') }}</h5>
+    <br>
+          <h5 class="modal-title" id="createModuleModalLabel">Modifier mes Informations</h5>
 
-          <form action="/create-cours" method="post" enctype="multipart/form-data">
+          <form action="/me" method="post">
           {{ csrf_field() }}
-            <div class="mb-3" style="padding: 25px 30px 10px 30px; box-shadow:0px 2px 5px 5px lightblue ">
-              <em class="text-danger" style="font-size:10px">
-                                    @error("titrecours")
+          <div class=" bg-light text-light" style="padding: 25px 30px 10px 30px; box-shadow:0px 2px 5px 5px lightblue ">
+          <em class="text-danger" style="font-size:15px">
+                                    @error("username")
                                      {{ $message }}
                                     @enderror
                                 </em>
-              <input type="hidden" name="idchapitre" value="{{ Session::get('idchapitre') }}">
-              <input type="text" name="titrecours" class="form-control" value="{{old('titrecours')}}" id="moduleTitle" placeholder="Entrez le titre du cours" style="border: 1px solid gray;" required><br>
-              <em class="text-danger" style="font-size:10px">
-                                    @error("illustrationcours")
+            <input type="text" name="username" class="form-control" id="moduleTitle" placeholder="{{ $username }}" value="{{ $username }}" minlength="1"><br>
+            <em class="text-danger" style="font-size:15px">
+                                    @error("email")
                                      {{ $message }}
                                     @enderror
                                 </em>
-              <label for="illustrationcours">Image ou video d'illustration</label>
-              <input type="file" name="illustrationcours" id="illustrationcours" class="form-control" accept=""><br>
-              <em class="text-danger" style="font-size:10px">
-                                    @error("contenucours")
+              <input type="text" name="email" class="form-control" id="moduleTitle" placeholder="{{$email}}" value="{{$email}}" minlength="1"><br>
+              <em class="text-danger" style="font-size:15px">
+                                    @error("password")
                                      {{ $message }}
                                     @enderror
                                 </em>
-              <textarea name="contenucours" class="form-control" id="contenucours" style="border: 1px solid gray;" required placeholder="Saisissez le contenu du cours ici">{{old('contenucours')}}</textarea>
+              <input type="text" name="password" class="form-control" id="moduleTitle" placeholder="Nouveau mot de passe . . ." minlength="1"><br>
+              <input type="text" name="password_confirmation" class="form-control" id="moduleTitle" placeholder="Retaper mot de passe . . ."  minlength="1"><br>
             </div>
-          <button type="submit" class="btn btn-primary" style="width: 100%;">Valider</button>
+          <button type="submit" class="btn btn-primary" style="width: 100%; border-radius:0">Valider</button>
         </form>
     </center>
-  </div><br><hr><br>
-  <center><em>
-    <a href="{{ route('cours', Session::get('idchapitre')) }}">Voir les cours existants</a>
-  </em></center>
+  </div><br>
 
+
+  <script>
+      function confirmer(){
+       return confirm("Voulez vous supprimer ?");
+      }
+    </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 </body>
 </html>

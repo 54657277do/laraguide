@@ -46,16 +46,22 @@
           <li class="nav-item">
             <a class="nav-link" href="{{ route('creerchapter') }}">Nouveau chapitre</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Profil</a>
-          </li>
-          <li class="nav-item">
+        
+          <li class="dropdown nav-item">  
+  <button class="btn btn-danger  dropdown-toggle text-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">  
+    Profil : {{Auth::user()->username}}  
+  </button>  
+  <ul class="dropdown-menu dropdown-menu-end">  
+    <li><a class="dropdown-item text-primary" href="{{ route('me') }}">Mes informations</a></li>  
+    <li class="dropdown-item">
             <form action="{{ route('logout') }}" method="post" class="nav-item">
               @method('delete')
               @csrf
-              <button class="nav-link">Se deconnecter</button>
+              <button class="btn btn-danger">Se deconnecter</button>
             </form>
-          </li>
+    </li>  
+  </ul>  
+      </li>
         </ul>
       </div>
     </div>
@@ -76,6 +82,21 @@
     <h5 class="text text-danger" style="font-weight: bold">Chapitre supprimé {{ session('successDelete') }}</h5>
   </center>
     @endif
+    @if(session('successupdate'))
+  <center>
+    <h5 class="text text-success" style="font-weight: bold">{{ session('successupdate') }}</h5>
+  </center>
+    @endif
+
+    <center>
+         <div class="row">
+              @error("nomchapitre")
+                <div class="text text-danger">
+                 Erreur de donnée. Veuillez reessayer
+                </div>
+              @enderror
+         </div>
+       </center>
 
     @if($module)
     <h4 class="text-primary">Liste des chapitres</h4>  
@@ -87,7 +108,7 @@
             <h5 class="card-title">{{ $chapter->nomchapitre }}</h5>
             <div class="d-flex justify-content-between align-items-center">
               <div style="display: flex;">
-              <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModuleModal">Modifier</a>
+              <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{{$chapter->idchapitre}}">Modifier</a>
               <form action="{{ route('deletechapter') }}" method="post" class="nav-item" style="margin-left: 15px;">
                 @method('delete')
                 @csrf
@@ -100,6 +121,44 @@
                 <input type="hidden" name="idchapitre" value="{{ $chapter->idchapitre }}">
               <button class="btn btn-dark">Gerer -></button>
             </form>
+
+
+<!-- Modal pour la modification d'un chapitre de formation -->
+<div class="modal fade" id="{{$chapter->idchapitre}}" tabindex="-1" aria-labelledby="createModuleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="">Formulaire d'édition</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <form action="/updatechapter" method="post">
+          {{ csrf_field() }}
+          @method('post')
+            <div class="mb-3">
+            <em class="text-danger" style="font-size:10px">
+                                    @error("nomchapitre")
+                                     {{ $message }}
+                                    @enderror
+                                </em>
+              <label for="moduleTitle" class="form-label">Nouveau nom</label>
+              <input type="text" name="nomchapitre" value="{{$chapter->nomchapitre}}" class="form-control" id="moduleTitle" placeholder="Saisir ici ..." required minlength="4">
+            </div>
+            <input type="hidden" name="idchapitre" value="{{$chapter->idchapitre}}">
+        <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Valider</button>
+          <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        </div>
+        </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
               </div>
             </div>
           </div>
@@ -109,33 +168,7 @@
     </div>
   </div>
  @endif
-  <!-- Modal pour la modification d'un chapitre de formation -->
-  <div class="modal fade" id="createModuleModal" tabindex="-1" aria-labelledby="createModuleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="createModuleModalLabel">Formulaire d'édition</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-
-          <form action="/update-chapter" method="post">
-          {{ csrf_field() }}
-            <div class="mb-3">
-              <label for="moduleTitle" class="form-label">Nouveau nom</label>
-              <input type="text" name="nomchapitre" class="form-control" id="moduleTitle" placeholder="Saisir ici ..." required minlength="4">
-            </div>
-        <div class="modal-footer">
-          <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-          <button type="submit" class="btn btn-primary">Valider</button>
-        </div>
-        </form>
-
-        </div>
-      </div>
-    </div>
-  </div>
-
+  
   <script>
       function confirmer(){
        return confirm("Voulez vous supprimer ?");

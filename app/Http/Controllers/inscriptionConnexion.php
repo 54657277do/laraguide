@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class inscriptionConnexion extends Controller
 {
@@ -51,6 +52,7 @@ class inscriptionConnexion extends Controller
          if(Auth::attempt($entrees)){
           $request->session()->regenerate();
           return redirect()->intended(route("modules"));
+          Session::put('idmodule', 1);
         }
         return to_route("connexion")->withErrors([
            "email"=>"Identifiant (s) invalide (s)" 

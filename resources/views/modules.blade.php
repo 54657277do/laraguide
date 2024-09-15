@@ -33,18 +33,24 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link" href="{{ route('creermodule') }}">Créer une Formation</a>
+            <a class="nav-link active" href="{{ route('creermodule') }}">Créer une Formation</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Profil</a>
-          </li>
-          <li class="nav-item">
+          
+          <li class="dropdown nav-item">  
+  <button class="btn btn-danger  dropdown-toggle text-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">  
+    Profil : {{Auth::user()->username}}  
+  </button>  
+  <ul class="dropdown-menu dropdown-menu-end">  
+    <li><a class="dropdown-item text-primary" href="{{ route('me') }}">Mes informations</a></li>  
+    <li class="dropdown-item">
             <form action="{{ route('logout') }}" method="post" class="nav-item">
               @method('delete')
               @csrf
-              <button class="nav-link">Se deconnecter</button>
+              <button class="btn btn-danger">Se deconnecter</button>
             </form>
-          </li>
+    </li>  
+  </ul>  
+      </li>
         </ul>
       </div>
     </div>
@@ -61,6 +67,12 @@
     <h5 class="text text-danger" style="font-weight: bold">Module supprimé {{ session('successDelete') }}</h5>
   </center>
     @endif
+    @if(session('successupdate'))
+  <center>
+    <h5 class="text text-success" style="font-weight: bold">{{ session('successupdate') }}</h5>
+  </center>
+    @endif
+    
     <h1 class="text-primary">Mes Formations</h1>  
     <p class="lead">Consultez et gérez vos formations existantes.</p>
 
@@ -75,7 +87,7 @@
             <div class="d-flex justify-content-between align-items-center">
               <div style="display: flex;">
 
-              <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModuleModal">Modifier</a>
+              <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{{ $module->idmodule }}">Modifier</a>
               
               <form action="{{ route('delete') }}" method="post" class="nav-item" style="margin-left: 15px;">
                 @method('delete')
@@ -91,17 +103,9 @@
               <button class="btn btn-dark">Gerer -></button>
             </form>
 
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      @endforeach
-    </div>
-  </div>
 
-  <!-- Modal pour la modification d'un module de formation -->
-  <div class="modal fade" id="createModuleModal" tabindex="-1" aria-labelledby="createModuleModalLabel" aria-hidden="true">
+            <!-- Modal pour la modification d'un module de formation -->
+  <div class="modal fade" id="{{ $module->idmodule }}" tabindex="-1" aria-labelledby="createModuleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -110,21 +114,22 @@
         </div>
         <div class="modal-body">
 
-          <form action="/create-module" method="post">
+          <form action="/updatemodule" method="post">
           {{ csrf_field() }}
+          @method('post')
             <div class="mb-3">
               <label for="moduleTitle" class="form-label">Titre</label>
-              <input type="text" name="nommodule" class="form-control" id="moduleTitle" placeholder="Entrez le titre du module" required>
+              <input type="text" name="nommodule" value="{{ $module->nommodule }}" class="form-control" id="moduleTitle" placeholder="Entrez le titre du module" required>
             </div>
             <div class="mb-3">
               <label for="modulePrerequisites" class="form-label">Prérequis</label>
-              <textarea class="form-control" name="prerequis" id="modulePrerequisites" rows="3" placeholder="Entrez les prérequis du module (Optionel) "></textarea>
+              <textarea class="form-control" name="prerequis" id="modulePrerequisites" rows="3" placeholder="Entrez les prérequis du module (Optionel) ">{{ $module->prerequis }}</textarea>
             </div>
             <div class="mb-3">
               <label for="moduleDescription" class="form-label">Description</label>
-              <textarea class="form-control" name="description" id="moduleDescription" rows="3" placeholder="Entrez la description du module" required></textarea>
+              <textarea class="form-control" name="description" id="moduleDescription" rows="3" placeholder="Entrez la description du module" required>{{ $module->description }}</textarea>
             </div>
-      
+            <input type="hidden" name="idmodule" value="{{ $module->idmodule }}">
         <div class="modal-footer">
           <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
           <button type="submit" class="btn btn-primary">Créer le module</button>
@@ -135,6 +140,17 @@
       </div>
     </div>
   </div>
+  
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      @endforeach
+    </div>
+  </div>
+
+  
 
   <script>
       function confirmer(){

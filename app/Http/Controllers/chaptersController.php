@@ -32,12 +32,27 @@ class chaptersController extends Controller
         
     }
 
+    public function updatechapter(Request $request) {
+        $request->validate([
+            'nomchapitre'=>'required|min:5'
+        ]);
+        $formateurid=Auth::user()->id;
+        $nomchapitre= $request->nomchapitre;
+        
+        $chapitre= Chapitre::find($request->idchapitre);
+        $chapitre->nomchapitre = $nomchapitre;
+        
+        $chapitre->save();
+        return to_route('chapters', Session::get('idmodule'))->with('successupdate', 'Chapitre mis à jour ');
+    }
+
 
     public function listesChapter(Request $request, $idmodule) {
+        $formateurid=Auth::user()->id;
         Session::put('idmodule', $request->idmodule);
         $idmodule=Session::get('idmodule');
-        $chapters= Chapitre::where('idmodule', $idmodule)->get()??[];
-        $module= Module::where('idmodule', $idmodule)->first();
+        $chapters= Chapitre::where(['idmodule'=> $idmodule, 'idformateur'=> $formateurid])->get()??[];
+        $module= Module::where(['idmodule'=> $idmodule, 'idformateur'=> $formateurid])->first();
         Session::put('nommodule', $module->nommodule);
         return view('chapters',
         [
