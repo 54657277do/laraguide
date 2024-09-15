@@ -88,10 +88,10 @@
             <div class="d-flex justify-content-between align-items-center">
               <div style="display: flex;">
               <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModuleModal">Modifier</a>
-              <form action="{{ route('deletechapter') }}" method="post" class="nav-item" style="margin-left: 15px;">
+              <form action="{{ route('deletecours') }}" method="post" class="nav-item" style="margin-left: 15px;">
                 @method('delete')
                 @csrf
-                <input type="hidden" name="idchapitre" value="{{ $chapter->idchapitre }}">
+                <input type="hidden" name="idcours" value="{{ $cour->idcours }}">
               <button class=" btn btn-danger" onclick="return confirmer()">Supprimer</button>
             </form>
               </div>

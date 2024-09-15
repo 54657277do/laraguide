@@ -20,15 +20,18 @@ class courscontroller extends Controller
 
     public function createcoursFeedback(Request $request) {
         $request->validate([
-            'nomcours'=>'required|min:5|unique:cours'
+            'titrecours'=>'required|min:5|unique:cours',
+            'contenucours'=>'required|min:10|unique:cours'
         ]);
-        $nomchapitre= $request->input('nomchapitre');
-        $idmodule=$request->input('idmodule');
+        $titrecours= $request->input('titrecours');
+        $contenucours=$request->input('contenucours');
+        $idchapitre=$request->input('idchapitre');
 
-        $module= Chapitre::create([
+        $cours= cours::create([
            'idformateur'=>Auth::user()->id,
-           'nomchapitre'=>$nomchapitre,
-           'idmodule'=>$idmodule
+           'idchapitre'=>$idchapitre,
+           'titrecours'=>$titrecours,
+           'contenucours'=>$contenucours
         ]);
         return to_route('cours', Session::get('idchapitre'))->with('success', '! ');
         
@@ -49,7 +52,7 @@ class courscontroller extends Controller
         );
     }
 
-    public function deleteccours(Request $request){
+    public function deletecours(Request $request){
         $formateurid=Auth::user()->id;
            $cours=cours::where([
             'idcours'=>$request->idcours,

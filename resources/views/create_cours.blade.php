@@ -74,20 +74,6 @@
     <center>CHAPITRE : <strong>{{Session::get('nomchapitre')}}</strong></center>
   </div>
 
-  <div class="container">    
-       <center>
-         <div class="row">
-              @error("titrecours")
-                <div class="alert alert-danger">
-                 Le titre du cours est invalide
-                <br><center>Cliquez à nouveau sur le bouton et Réessayez</center>
-                </div>
-              @enderror
-         </div>
-       </center>
-    
-  </div>
-
   <!-- Modal pour la création d'un module de formation -->
   <div class="row" style="padding-left:20%; padding-right:20%">
     <center>
@@ -103,6 +89,11 @@
                                 </em>
               <input type="hidden" name="idchapitre" value="{{ Session::get('idchapitre') }}">
               <input type="text" name="titrecours" class="form-control" id="moduleTitle" placeholder="Entrez le titre du cours" style="border: 1px solid gray;" required><br>
+              <em class="text-danger" style="font-size:10px">
+                                    @error("contenucours")
+                                     {{ $message }}
+                                    @enderror
+                                </em>
               <textarea name="contenucours" class="form-control" id="contenucours" style="border: 1px solid gray;" required placeholder="Saisissez le contenu du cours ici"></textarea>
             </div>
           <button type="submit" class="btn btn-primary" style="width: 100%;">Valider</button>
